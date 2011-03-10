@@ -1,47 +1,56 @@
-%define oname bundler
+# Generated from bundler-1.0.10.gem by gem2rpm5 -*- rpm-spec -*-          
+%define	rbname	bundler
 
-Name:       rubygem-%{oname}
-Version:    1.0.2
-Release:    %mkrel 1
-Summary:    The best way to manage your application's dependencies
-Group:      Development/Ruby
-License:    MIT
-URL:        http://gembundler.com
-Source0:    http://gems.rubyforge.org/gems/%{oname}-%{version}.gem
-BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}
+Summary:	The best way to manage your application's dependencies
+Name:		rubygem-%{rbname}
 
-Requires:       rubygems
-Requires:       rubygem(ronn)
-Requires:       rubygem(rspec)
-BuildRequires:  rubygems
-BuildArch:      noarch
-Provides:       rubygem(%{oname}) = %{version}
+Version:	1.0.10
+Release:	1
+Group:		Development/Ruby
+License:	MIT
+URL:		http://gembundler.com
+Source0:	http://rubygems.org/gems/%{rbname}-%{version}.gem
+BuildRequires:	rubygems >= 1.3.6
+BuildArch:	noarch
 
 %description
 Bundler manages an application's dependencies through its entire life, across
 many machines, systematically and repeatably
 
+%package	doc
+Summary:	Documentation for %{name}
+Group:		Books/Computer books
+Requires:	%{name} = %{EVRD}
+BuildArch:	noarch
+
+%description	doc
+Documents, RDoc & RI documentation for %{name}.
+
 %prep
+%setup -q
 
 %build
+%gem_build -f '(bin|man|lib|spec)/'
 
 %install
-rm -rf %buildroot
-mkdir -p %{buildroot}%{ruby_gemdir}
-gem install --local --install-dir %{buildroot}%{ruby_gemdir} \
-            --force --rdoc %{SOURCE0}
-mkdir -p %{buildroot}/%{_bindir}
-mv %{buildroot}%{ruby_gemdir}/bin/* %{buildroot}/%{_bindir}
-rmdir %{buildroot}%{ruby_gemdir}/bin
-find %{buildroot}%{ruby_gemdir}/gems/%{oname}-%{version} -name ".gitignore" -exec rm {} \;
+rm -rf %{buildroot}
+%gem_install
 
 %clean
-rm -rf %buildroot
+rm -rf %{buildroot}
 
 %files
-%defattr(-, root, root, -)
 %{_bindir}/bundle
-%{ruby_gemdir}/gems/%{oname}-%{version}/
-%doc %{ruby_gemdir}/doc/%{oname}-%{version}
-%{ruby_gemdir}/cache/%{oname}-%{version}.gem
-%{ruby_gemdir}/specifications/%{oname}-%{version}.gemspec
+%dir %{ruby_gemdir}/gems/%{rbname}-%{version}
+%dir %{ruby_gemdir}/gems/%{rbname}-%{version}/bin
+%{ruby_gemdir}/gems/%{rbname}-%{version}/bin/bundle
+%dir %{ruby_gemdir}/gems/%{rbname}-%{version}/lib
+%{ruby_gemdir}/gems/%{rbname}-%{version}/lib/*
+%dir %{ruby_gemdir}/gems/%{rbname}-%{version}/spec
+%{ruby_gemdir}/gems/%{rbname}-%{version}/spec/*
+%{ruby_gemdir}/specifications/%{rbname}-%{version}.gemspec
+
+%files doc
+%doc %{ruby_gemdir}/doc/%{rbname}-%{version}
+%dir %{ruby_gemdir}/gems/%{rbname}-%{version}/man
+%{ruby_gemdir}/gems/%{rbname}-%{version}/man/*
