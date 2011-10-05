@@ -4,7 +4,7 @@
 Summary:	The best way to manage your application's dependencies
 Name:		rubygem-%{rbname}
 
-Version:	1.0.10
+Version:	1.0.21
 Release:	1
 Group:		Development/Ruby
 License:	MIT
@@ -33,11 +33,7 @@ Documents, RDoc & RI documentation for %{name}.
 %gem_build -f '(bin|man|lib|spec)/'
 
 %install
-rm -rf %{buildroot}
 %gem_install
-
-%clean
-rm -rf %{buildroot}
 
 %files
 %{_bindir}/bundle
