@@ -8,7 +8,7 @@ Version:	1.2.1
 Release:	1
 Group:		Development/Ruby
 License:	MIT
-URL:		http://gembundler.com
+URL:		https://gembundler.com
 Source0:	http://rubygems.org/gems/%{rbname}-%{version}.gem
 BuildRequires:	rubygems >= 1.3.6
 BuildRequires:  locales-en
